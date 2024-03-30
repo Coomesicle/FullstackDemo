@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
+import AddCandyDialog from "@/components/component/AddCandyDialog.jsx";
 import TableRowComponent from "@/components/component/TableRowComponent.jsx";
 import { useEffect, useState } from "react"
 
@@ -10,13 +11,20 @@ export default function Component() {
 
   const [rows, setRows] = useState<any>(null);
   const [loading, setLoading] = useState<any>(true);
-
+  const [openModal, setOpenModal] = useState(false);
 
   const removeRow = (name: any) => {
     let newRows = [...rows];
     newRows.splice(newRows.findIndex((el) => el["Name"] == name));
     setRows(newRows);
   }
+
+  const addRow = (obj : any) => {
+    let newRows = [...rows];
+    newRows.splice(0, 0, obj);
+    setRows(newRows);
+  }
+
   const dictToArray = (jsonObj: any) : Array<Object> => {
     return Object.keys(jsonObj).map(key => {
       return { 
@@ -36,9 +44,9 @@ export default function Component() {
         setLoading(false);
       })
     }
-
-
   }
+
+  
   useEffect(() => {
     fetchCandies();
   }, [])
@@ -56,9 +64,10 @@ export default function Component() {
           <span className="sr-only">Toggle sidebar</span>
         </Button>
         <h1 className="font-semibold text-base lg:text-xl">Candy Requests</h1>
-        <Button className="ml-auto lg:ml-2" size="sm">
-          Add candy
+        <Button onClick={() => setOpenModal(true)} type="button" variant="outline">
+              Add Candy
         </Button>
+        <AddCandyDialog open={openModal} setOpen={setOpenModal} addRow={addRow}/>
       </header>
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="mx-auto max-w-6xl space-y-4">
