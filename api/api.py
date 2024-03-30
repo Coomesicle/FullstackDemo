@@ -5,7 +5,7 @@ app = Flask(__name__)
 CORS(app)
 
 # dict to store Candy
-candy = None
+candy = {}
 
 
 
