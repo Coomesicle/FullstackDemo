@@ -39,9 +39,11 @@ const AddCandyDialog = ({ addRow , open, setOpen }) => {
     });
 
     const onSubmit = async (obj) => {
-        const response = await fetch("process.env.NEXT_BACKEND_URL/candy", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candy`, {
             headers: {
                 "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "69420",
+                "Access-Control-Allow-Origin": "*"
             },
             method: "POST",
             body: JSON.stringify(obj)

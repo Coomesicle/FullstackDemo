@@ -36,8 +36,12 @@ export default function Component() {
 
   const fetchCandies = async () => {
     if (!rows) { 
-      await fetch("process.env.NEXT_BACKEND_URL/candy", {
-        method:'GET'
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candy`, {
+        method:'GET',
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Access-Control-Allow-Origin": "*"
+        }
       }).then(response => response.json()).then(json => {
         console.log(json);
         setRows(dictToArray(json));

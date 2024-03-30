@@ -9,10 +9,12 @@ const TableRowComponent = ({ row, removeRow }) => {
     
     const handleDelete = async (name) => { 
       console.log(name)
-      await fetch("process.env.NEXT_BACKEND_URL/candy", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candy`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+          "Access-Control-Allow-Origin": "*"
         },
         body: JSON.stringify({
           "Name": name,
