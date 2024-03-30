@@ -8,6 +8,7 @@ candy = {}
 
 
 # GET, POST, DELETE methods for Candy
+CORS(app)
 @app.route("/candy", methods=["POST", "GET", "DELETE"])
 def get_candy():
     if request.method == "POST":

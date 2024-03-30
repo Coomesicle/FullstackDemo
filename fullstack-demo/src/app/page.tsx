@@ -15,7 +15,7 @@ export default function Component() {
 
   const removeRow = (name: any) => {
     let newRows = [...rows];
-    newRows.splice(newRows.findIndex((el) => el["Name"] == name));
+    newRows.splice(newRows.findIndex((el) => el["Name"] == name), 1);
     setRows(newRows);
   }
 
