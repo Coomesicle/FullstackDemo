@@ -1,15 +1,53 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/z6WRCHK2NDm
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+"use client"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import TableRowComponent from "@/components/component/TableRowComponent.jsx";
+import { useEffect, useState } from "react"
 
 export default function Component() {
+
+  const [rows, setRows] = useState<any>(null);
+  const [loading, setLoading] = useState<any>(true);
+
+
+  const removeRow = (name: any) => {
+    let newRows = [...rows];
+    newRows.splice(newRows.findIndex((el) => el["Name"] == name));
+    setRows(newRows);
+  }
+  const dictToArray = (jsonObj: any) : Array<Object> => {
+    return Object.keys(jsonObj).map(key => {
+      return { 
+        "Name": key,
+        "Candy": jsonObj[key],
+      }
+    })
+  }
+
+  const fetchCandies = async () => {
+    if (!rows) { 
+      await fetch("http://localhost:5000/candy", {
+        method:'GET'
+      }).then(response => response.json()).then(json => {
+        console.log(json);
+        setRows(dictToArray(json));
+        setLoading(false);
+      })
+    }
+
+
+  }
+  useEffect(() => {
+    fetchCandies();
+  }, [])
+
+
+  if (loading && !rows)
+    return (
+      <div>Loading</div>
+    )
   return (
     <div className="flex flex-col w-full min-h-screen">
       <header className="flex items-center h-14 px-4 border-b lg:h-20 gap-4 dark:border-gray-800">
@@ -39,91 +77,11 @@ export default function Component() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>John Doe</TableCell>
-                  <TableCell className="font-semibold">Gummy Bears</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant="info">Pending</Badge>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <TrashIcon className="w-4 h-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Jane Smith</TableCell>
-                  <TableCell className="font-semibold">Sour Worms</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant="success">Fulfilled</Badge>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <TrashIcon className="w-4 h-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Mike Johnson</TableCell>
-                  <TableCell className="font-semibold">Cotton Candy</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant="success">Fulfilled</Badge>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <TrashIcon className="w-4 h-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Emily Davis</TableCell>
-                  <TableCell className="font-semibold">Chocolate Bar</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant="info">Pending</Badge>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <TrashIcon className="w-4 h-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Olivia Wilson</TableCell>
-                  <TableCell className="font-semibold">Jelly Beans</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant="info">Pending</Badge>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button className="rounded-full" size="icon" variant="ghost">
-                      <TrashIcon className="w-4 h-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                { 
+                  rows.map((row : any) => (
+                    <TableRowComponent row={row} removeRow={removeRow} />
+                  ))
+                }
               </TableBody>
             </Table>
           </div>
@@ -133,29 +91,8 @@ export default function Component() {
   )
 }
 
-function FileEditIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5" />
-      <polyline points="14 2 14 8 20 8" />
-      <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z" />
-    </svg>
-  )
-}
 
-
-function Package2Icon(props) {
+function Package2Icon(props: any) {
   return (
     <svg
       {...props}
@@ -172,28 +109,6 @@ function Package2Icon(props) {
       <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
       <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
       <path d="M12 3v6" />
-    </svg>
-  )
-}
-
-
-function TrashIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 6h18" />
-      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
     </svg>
   )
 }
