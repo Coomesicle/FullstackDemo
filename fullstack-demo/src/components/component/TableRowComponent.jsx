@@ -9,7 +9,7 @@ const TableRowComponent = ({ row, removeRow }) => {
     
     const handleDelete = async (name) => { 
       console.log(name)
-      await fetch("http://localhost:5000/candy", {
+      await fetch("process.env.NEXT_BACKEND_URL/candy", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

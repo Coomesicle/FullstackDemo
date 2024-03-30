@@ -39,7 +39,7 @@ const AddCandyDialog = ({ addRow , open, setOpen }) => {
     });
 
     const onSubmit = async (obj) => {
-        const response = await fetch("http://localhost:5000/candy", {
+        const response = await fetch("process.env.NEXT_BACKEND_URL/candy", {
             headers: {
                 "Content-Type": "application/json",
             },

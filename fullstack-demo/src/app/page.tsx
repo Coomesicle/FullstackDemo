@@ -36,7 +36,7 @@ export default function Component() {
 
   const fetchCandies = async () => {
     if (!rows) { 
-      await fetch("http://localhost:5000/candy", {
+      await fetch("process.env.NEXT_BACKEND_URL/candy", {
         method:'GET'
       }).then(response => response.json()).then(json => {
         console.log(json);
