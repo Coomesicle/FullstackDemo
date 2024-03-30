@@ -42,8 +42,7 @@ const TableRowComponent = ({ row, removeRow }) => {
                     <button className="sr-only">Edit</button>
                 </Button>
                 <Button onClick={() => handleDelete(row.Name)} className="rounded-full" size="icon" variant="ghost">
-                    <TrashIcon className="w-4 h-4" />
-                    <button className="sr-only">Delete</button>
+                  
                 </Button>
             </TableCell>
         </TableRow>
