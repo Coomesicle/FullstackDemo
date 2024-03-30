@@ -6,18 +6,15 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 const TableRowComponent = ({ row, removeRow }) => {
-
-    const handleEdit = async () => { 
-      // This function edits an existing candy
-      
-    }
     
     const handleDelete = async (name) => { 
       console.log(name)
-      await fetch("http://localhost:5000/candy", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candy`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+          "Access-Control-Allow-Origin": "*"
         },
         body: JSON.stringify({
           "Name": name,
@@ -45,8 +42,7 @@ const TableRowComponent = ({ row, removeRow }) => {
                     <button className="sr-only">Edit</button>
                 </Button>
                 <Button onClick={() => handleDelete(row.Name)} className="rounded-full" size="icon" variant="ghost">
-                    <TrashIcon className="w-4 h-4" />
-                    <button className="sr-only">Delete</button>
+                  
                 </Button>
             </TableCell>
         </TableRow>
