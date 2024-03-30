@@ -2,14 +2,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 
 # dict to store Candy
 candy = {}
 
 
-
-# Uses put method to update BPM and get method to retrieve.
+# GET, POST, DELETE methods for Candy
 @app.route("/candy", methods=["POST", "GET", "DELETE"])
 def get_candy():
     if request.method == "POST":
