@@ -58,7 +58,7 @@ const AddCandyDialog = ({ addRow , open, setOpen }) => {
     };
 
     return (
-        <Dialog open={open}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
                 <Form {...form}>
                     <form
