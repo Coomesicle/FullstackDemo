@@ -37,12 +37,9 @@ const TableRowComponent = ({ row, removeRow }) => {
                 <Badge variant="info">Pending</Badge>
             </TableCell>
             <TableCell className="flex gap-2">
-                <Button className="rounded-full" size="icon" variant="ghost">
-                    <FileEditIcon className="w-4 h-4" />
-                    <button className="sr-only">Edit</button>
-                </Button>
                 <Button onClick={() => handleDelete(row.Name)} className="rounded-full" size="icon" variant="ghost">
-                  
+                    <TrashIcon className="w-4 h-4" />
+                    <button className="sr-only">Delete</button>
                 </Button>
             </TableCell>
         </TableRow>
