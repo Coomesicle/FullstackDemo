@@ -21,9 +21,15 @@ export default function Component() {
 
   const addRow = (obj : any) => {
     let newRows = [...rows];
+    if (newRows.findIndex((el) => el["Name"] == obj["Name"]) != -1) { 
+      newRows[newRows.findIndex((el) => el["Name"] == obj["Name"])] = obj;
+      setRows(newRows);
+      return;
+    }
     newRows.splice(0, 0, obj);
     setRows(newRows);
   }
+
 
   const dictToArray = (jsonObj: any) : Array<Object> => {
     return Object.keys(jsonObj).map(key => {
